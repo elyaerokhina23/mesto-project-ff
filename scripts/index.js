@@ -22,12 +22,12 @@ function createCard(cardData, deleteCallback) {
 }
 
 // @todo: Функция удаления карточки
-function cardDelete(card) {
+function deleteCard(card) {
   card.remove();
 }
 
 // @todo: Вывести карточки на страницу
-initialCards.forEach((cardData) => {
-  const cardElement = createCard(cardData, cardDelete);
-  placesList.append(cardElement);
-});
+function renderCard(cardData, method = "append") {
+  const cardElement = createCard(cardData, deleteCard);
+  placesList[method](cardElement);
+}
