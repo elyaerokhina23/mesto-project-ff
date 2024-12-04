@@ -31,3 +31,6 @@ function renderCard(cardData, method = "append") {
   const cardElement = createCard(cardData, deleteCard);
   placesList[method](cardElement);
 }
+initialCards.forEach((card) => {
+  renderCard(card);
+});
