@@ -5,63 +5,71 @@ import { openPopup, closePopup, setupModals } from "./components/modal.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const placesList = document.querySelector(".places__list");
-  const buttonEdit = document.querySelector(".profile__edit-button");
-  const buttonAdd = document.querySelector(".profile__add-button");
-  const popupEdit = document.querySelector(".popup_type_edit");
-  const popupAdd = document.querySelector(".popup_type_new-card");
-  const popupImage = document.querySelector(".popup_type_image");
-  const profileTitle = document.querySelector(".profile__title");
-  const profileDescription = document.querySelector(".profile__description");
-  const editForm = popupEdit.querySelector(".popup__form");
-  const addForm = popupAdd.querySelector(".popup__form");
-  const nameInput = editForm.querySelector(".popup__input_type_name");
-  const descInput = editForm.querySelector(".popup__input_type_description");
-  const popupImageElement = popupImage.querySelector(".popup__image");
-  const popupCaption = popupImage.querySelector(".popup__caption");
 
-  function handleImageClick(link, name) {
-    popupImageElement.src = link;
-    popupImageElement.alt = name;
-    popupCaption.textContent = name;
-    openPopup(popupImage);
+  const profileEditButton = document.querySelector(".profile__edit-button");
+  const addCardButton = document.querySelector(".profile__add-button");
+
+  const profilePopup = document.querySelector(".popup_type_edit");
+  const newCardPopup = document.querySelector(".popup_type_new-card");
+  const imagePopup = document.querySelector(".popup_type_image");
+
+  const profileName = document.querySelector(".profile__title");
+  const profileDescription = document.querySelector(".profile__description");
+
+  const profileForm = profilePopup.querySelector(".popup__form");
+  const newCardForm = newCardPopup.querySelector(".popup__form");
+
+  const profileNameInput = profileForm.querySelector(".popup__input_type_name");
+  const profileDescriptionInput = profileForm.querySelector(
+    ".popup__input_type_description",
+  );
+
+  const imagePopupElement = imagePopup.querySelector(".popup__image");
+  const imagePopupCaption = imagePopup.querySelector(".popup__caption");
+
+  function handleCardImageClick(link, name) {
+    imagePopupElement.src = link;
+    imagePopupElement.alt = name;
+    imagePopupCaption.textContent = name;
+    openPopup(imagePopup);
   }
 
   function renderCard(cardData, method = "append") {
-    const cardElement = createCard(cardData, handleLike, handleImageClick);
+    const cardElement = createCard(cardData, handleLike, handleCardImageClick);
     placesList[method](cardElement);
   }
 
-  function handleFormSubmit(evt) {
+  function handleProfileFormSubmit(evt) {
     evt.preventDefault();
-    profileTitle.textContent = nameInput.value;
-    profileDescription.textContent = descInput.value;
-    closePopup(popupEdit);
+    profileName.textContent = profileNameInput.value;
+    profileDescription.textContent = profileDescriptionInput.value;
+    closePopup(profilePopup);
   }
 
   initialCards.forEach((card) => renderCard(card));
 
-  buttonEdit.addEventListener("click", () => {
-    nameInput.value = profileTitle.textContent;
-    descInput.value = profileDescription.textContent;
-    openPopup(popupEdit);
+  profileEditButton.addEventListener("click", () => {
+    profileNameInput.value = profileName.textContent;
+    profileDescriptionInput.value = profileDescription.textContent;
+    openPopup(profilePopup);
   });
 
-  buttonAdd.addEventListener("click", () => {
-    addForm.reset();
-    openPopup(popupAdd);
+  addCardButton.addEventListener("click", () => {
+    newCardForm.reset();
+    openPopup(newCardPopup);
   });
 
-  editForm.addEventListener("submit", handleFormSubmit);
+  profileForm.addEventListener("submit", handleProfileFormSubmit);
 
-  addForm.addEventListener("submit", (evt) => {
+  newCardForm.addEventListener("submit", (evt) => {
     evt.preventDefault();
-    const placeName = addForm.querySelector(
+    const cardName = newCardForm.querySelector(
       ".popup__input_type_card-name",
     ).value;
-    const placeLink = addForm.querySelector(".popup__input_type_url").value;
-    renderCard({ name: placeName, link: placeLink }, "prepend");
-    addForm.reset();
-    closePopup(popupAdd);
+    const cardLink = newCardForm.querySelector(".popup__input_type_url").value;
+    renderCard({ name: cardName, link: cardLink }, "prepend");
+    newCardForm.reset();
+    closePopup(newCardPopup);
   });
 
   setupModals();
