@@ -28,3 +28,7 @@
     opacity 0.3s ease,
     visibility 0s 0.3s;
 }
+
+.popup__error {
+  color: #ff0000;
+}
