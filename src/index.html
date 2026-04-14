@@ -16,7 +16,9 @@
       </header>
       <main class="content">
         <section class="profile page__section">
-          <div class="profile__image"></div>
+          <button class="profile__image" type="button">
+            <span class="profile__image-overlay"></span>
+          </button>
           <div class="profile__info">
             <h1 class="profile__title"></h1>
             <button class="profile__edit-button" type="button"></button>
@@ -46,6 +48,8 @@
               required
               minlength="2"
               maxlength="40"
+              pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$"
+              data-pattern-error="Разрешены только латиница, кириллица, пробелы и дефисы"
             />
             <span class="popup__error" id="name-input-error"></span>
 
@@ -56,6 +60,8 @@
               id="description-input"
               placeholder="О себе"
               required
+              pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$"
+              data-pattern-error="Разрешены только латиница, кириллица, пробелы и дефисы"
               minlength="2"
               maxlength="200"
             />

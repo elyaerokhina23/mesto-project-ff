@@ -19,7 +19,8 @@ export function createCard(
   cardTitle.textContent = cardData.name;
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
-  likeCount.textContent = cardData.likes.length;
+
+  renderLikeState(cardData, currentUserId, likeButton, likeCount);
 
   if (cardData.owner._id !== currentUserId) {
     deleteButton.style.display = "none";
@@ -28,14 +29,32 @@ export function createCard(
   cardImage.addEventListener("click", () =>
     handleImageClick(cardData.link, cardData.name),
   );
+
   likeButton.addEventListener("click", () =>
     handleLikeClick(cardData, likeButton, likeCount),
   );
+
   deleteButton.addEventListener("click", () =>
     handleDeleteClick(cardData, cardElement),
   );
 
   return cardElement;
+}
+
+function renderLikeState(
+  cardData,
+  currentUserId,
+  likeButton,
+  likeCountElement,
+) {
+  likeCountElement.textContent = cardData.likes.length;
+
+  const isLiked = cardData.likes.some((user) => user._id === currentUserId);
+  if (isLiked) {
+    likeButton.classList.add("card__like-button_is-active");
+  } else {
+    likeButton.classList.remove("card__like-button_is-active");
+  }
 }
 
 export function updateCardLikes(
@@ -44,10 +63,9 @@ export function updateCardLikes(
   likes,
   currentUserId,
 ) {
-  likeCountElement.textContent = likes.length;
-  if (likes.some((like) => like._id === currentUserId)) {
-    likeButton.classList.add("place__like-button_active");
-  } else {
-    likeButton.classList.remove("place__like-button_active");
-  }
+  renderLikeState({ likes }, currentUserId, likeButton, likeCountElement);
+}
+
+export function removeCardElement(cardElement) {
+  cardElement.remove();
 }
